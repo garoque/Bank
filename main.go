@@ -4,7 +4,6 @@ import (
 	"Q2Bank/api"
 	"Q2Bank/app"
 	"Q2Bank/store"
-	"net/http"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
@@ -14,7 +13,6 @@ import (
 )
 
 func main() {
-	// Echo instance
 	e := echo.New()
 
 	// Middleware
@@ -35,9 +33,4 @@ func main() {
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
-}
-
-// Handler
-func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
 }
