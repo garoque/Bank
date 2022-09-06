@@ -33,14 +33,15 @@ func (s *storeImpl) Create(ctx context.Context, user model.User) (string, error)
 	_, err := s.dbConn.ExecContext(ctx, `
 		INSERT INTO users (
 			id,
+			name,
 			cpf,
 			cnpj,
 			email,
 			balance,
 			is_seller,
 			password
-		) VALUES (?, ?, ?, ?, ?, ?, ?)
-	`, id, user.Cpf, user.Cnpj, user.Email, user.Balance, user.IsSeller, user.Password)
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+	`, id, user.Name, user.Cpf, user.Cnpj, user.Email, user.Balance, user.IsSeller, user.Password)
 
 	if err != nil {
 		fmt.Println("error user.store.Create: ", err.Error())
@@ -53,9 +54,9 @@ func (s *storeImpl) Create(ctx context.Context, user model.User) (string, error)
 func (s *storeImpl) ReadByID(ctx context.Context, id string) (*model.User, error) {
 	user := new(model.User)
 
-	err := s.dbConn.GetContext(ctx, &user, `
+	err := s.dbConn.GetContext(ctx, user, `
 		SELECT
-			id, cpf, cnpj, email, balance, is_seller, password, created_at, updated_at
+			id, name, cpf, cnpj, email, balance, is_seller, password, created_at
 		FROM users WHERE id = ?
 	`, id)
 
@@ -70,7 +71,7 @@ func (s *storeImpl) ReadByID(ctx context.Context, id string) (*model.User, error
 func (s *storeImpl) ReadByEmail(ctx context.Context, email string) (*model.User, error) {
 	user := new(model.User)
 
-	err := s.dbConn.GetContext(ctx, &user, `
+	err := s.dbConn.GetContext(ctx, user, `
 		SELECT
 			id, cpf, cnpj, email, balance, is_seller, password, created_at, updated_at
 		FROM users WHERE email = ?
@@ -78,7 +79,7 @@ func (s *storeImpl) ReadByEmail(ctx context.Context, email string) (*model.User,
 
 	if err != nil {
 		fmt.Println("error user.store.ReadByEmail: ", err.Error())
-		return nil, errors.New("Ocorreu um erro ao ler um usuário")
+		return nil, err
 	}
 
 	return user, nil
@@ -87,7 +88,7 @@ func (s *storeImpl) ReadByEmail(ctx context.Context, email string) (*model.User,
 func (s *storeImpl) ReadByCpf(ctx context.Context, cpf string) (*model.User, error) {
 	user := new(model.User)
 
-	err := s.dbConn.GetContext(ctx, &user, `
+	err := s.dbConn.GetContext(ctx, user, `
 		SELECT
 			id, cpf, cnpj, email, balance, is_seller, password, created_at, updated_at
 		FROM users WHERE cpf = ?
@@ -95,7 +96,7 @@ func (s *storeImpl) ReadByCpf(ctx context.Context, cpf string) (*model.User, err
 
 	if err != nil {
 		fmt.Println("error user.store.ReadByCpf: ", err.Error())
-		return nil, errors.New("Ocorreu um erro ao ler um usuário")
+		return nil, err
 	}
 
 	return user, nil
@@ -104,7 +105,7 @@ func (s *storeImpl) ReadByCpf(ctx context.Context, cpf string) (*model.User, err
 func (s *storeImpl) ReadByCnpj(ctx context.Context, cnpj string) (*model.User, error) {
 	user := new(model.User)
 
-	err := s.dbConn.GetContext(ctx, &user, `
+	err := s.dbConn.GetContext(ctx, user, `
 		SELECT
 			id, cpf, cnpj, email, balance, is_seller, password, created_at, updated_at
 		FROM users WHERE cnpj = ?
@@ -112,7 +113,7 @@ func (s *storeImpl) ReadByCnpj(ctx context.Context, cnpj string) (*model.User, e
 
 	if err != nil {
 		fmt.Println("error user.store.ReadByCnpj: ", err.Error())
-		return nil, errors.New("Ocorreu um erro ao ler um usuário")
+		return nil, err
 	}
 
 	return user, nil

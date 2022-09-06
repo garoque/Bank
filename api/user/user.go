@@ -35,6 +35,7 @@ func (h *handler) createCommonUser(c echo.Context) error {
 	ctx := c.Request().Context()
 	user, err := h.apps.User.Create(ctx, *request.ToUser())
 	if err != nil {
+		fmt.Println("h.apps.User.Create: ", err.Error())
 		return err
 	}
 

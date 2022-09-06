@@ -4,6 +4,7 @@ import (
 	"Q2Bank/api"
 	"Q2Bank/app"
 	"Q2Bank/store"
+	"Q2Bank/utils/validator"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
@@ -14,12 +15,13 @@ import (
 
 func main() {
 	e := echo.New()
+	e.Validator = validator.NewValidator()
 
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	db := sqlx.MustConnect("mysql", "root:12345678@tcp(localhost:3306)/Q2Bank")
+	db := sqlx.MustConnect("mysql", "root:12345678@tcp(localhost:3306)/Q2Bank?parseTime=true")
 	store := store.NewContainerStore(db)
 
 	app := app.NewContainerApp(app.Options{
