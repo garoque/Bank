@@ -1,6 +1,7 @@
 package api
 
 import (
+	"Q2Bank/api/transaction"
 	"Q2Bank/api/user"
 	"Q2Bank/app"
 
@@ -14,4 +15,5 @@ type Options struct {
 
 func Register(opts Options) {
 	user.Register(opts.Group.Group("/user"), opts.Apps)
+	transaction.Register(opts.Group.Group("/transaction"), opts.Apps)
 }

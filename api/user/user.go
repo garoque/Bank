@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Register handlers /user
 func Register(g *echo.Group, apps *app.ContainerApp) {
 	h := &handler{
 		apps: apps,

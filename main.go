@@ -17,7 +17,6 @@ func main() {
 	e := echo.New()
 	e.Validator = validator.NewValidator()
 
-	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
@@ -33,6 +32,5 @@ func main() {
 		Apps:  app,
 	})
 
-	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
 }
