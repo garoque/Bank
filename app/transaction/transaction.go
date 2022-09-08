@@ -22,7 +22,6 @@ type appImpl struct {
 }
 
 func (a *appImpl) Create(ctx context.Context, request model.Transaction) (*model.Transaction, error) {
-	// verificar se NÃO é um lojista o payer
 	payer, err := a.stores.User.ReadByID(ctx, request.PayerID)
 	if err != nil {
 		fmt.Println("app.Create.user.ReadByID.payer: ", err.Error())
@@ -37,21 +36,13 @@ func (a *appImpl) Create(ctx context.Context, request model.Transaction) (*model
 		return nil, errors.New("Saldo insuficiente")
 	}
 
-	// remover dinheiro da carteira do payer
-	payer.Balance -= request.Value
-
-	// adicionar dinheiro na carteira do payee
 	payee, err := a.stores.User.ReadByID(ctx, request.PayeeID)
 	if err != nil {
 		fmt.Println("app.Create.user.ReadByID.payee: ", err.Error())
 		return nil, err
 	}
 
-	payee.Balance += request.Value
-
-	// usar o mock da api externa para validar
 	if isAuthorized := authorization.GetAuthorization(); !isAuthorized {
-		// rollback
 		fmt.Println("app.Create.authorization.GetAuthorization()")
 		return nil, err
 	}
@@ -64,10 +55,12 @@ func (a *appImpl) Create(ctx context.Context, request model.Transaction) (*model
 
 	transaction, err := a.stores.Transaction.ReadByID(ctx, id)
 	if err != nil {
-		fmt.Println("app.Create.Transaction.Create: ", err.Error())
+		fmt.Println("app.Create.Transaction.ReadByID: ", err.Error())
 		return nil, err
 	}
 
+	payer.Balance -= request.Value
+	payee.Balance += request.Value
 	// @TODO: alterar status
 	return transaction, nil
 }
