@@ -31,7 +31,7 @@ func (s *storeImpl) Create(ctx context.Context, transaction model.Transaction) (
 			id,
 			id_payer,
 			id_payee,
-			value,
+			value
 		) VALUES (?, ?, ?, ?)
 	`, id, transaction.PayerID, transaction.PayeeID, transaction.Value)
 
