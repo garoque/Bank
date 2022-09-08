@@ -15,6 +15,7 @@ var ERROR_NO_ROWS error = errors.New("sql: no rows in result set")
 type App interface {
 	Create(ctx context.Context, user model.User) (*model.User, error)
 	alreadyExists(ctx context.Context, email, cpf, cpnj string) (bool, error)
+	IncreaseBalance(ctx context.Context, value float64, userID string) error
 }
 
 func NewApp(stores *store.ContainerStore) App {
@@ -91,4 +92,21 @@ func (a *appImpl) alreadyExists(ctx context.Context, email, cpf, cnpj string) (b
 	}
 
 	return false, nil
+}
+
+func (a *appImpl) IncreaseBalance(ctx context.Context, value float64, userID string) error {
+	user, err := a.stores.User.ReadByID(ctx, userID)
+	if err != nil {
+		fmt.Println("app.IncreaseBalance.User.ReadByID: ", err.Error())
+		return err
+	}
+
+	user.Balance += value
+	err = a.stores.User.IncreaseBalance(ctx, *user)
+	if err != nil {
+		fmt.Println("app.IncreaseBalance.User.IncreaseBalance: ", err.Error())
+		return err
+	}
+
+	return nil
 }

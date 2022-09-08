@@ -17,6 +17,7 @@ type Store interface {
 	ReadByEmail(ctx context.Context, email string) (*model.User, error)
 	ReadByCpf(ctx context.Context, cpf string) (*model.User, error)
 	ReadByCnpj(ctx context.Context, cnpj string) (*model.User, error)
+	IncreaseBalance(ctx context.Context, user model.User) error
 }
 
 func NewStore(dbConn *sqlx.DB) Store {
@@ -117,4 +118,19 @@ func (s *storeImpl) ReadByCnpj(ctx context.Context, cnpj string) (*model.User, e
 	}
 
 	return user, nil
+}
+
+func (s *storeImpl) IncreaseBalance(ctx context.Context, user model.User) error {
+	_, err := s.dbConn.ExecContext(ctx, `
+		UPDATE users SET
+			balance = ?
+		WHERE id = ?
+	`, user.Balance, user.ID)
+
+	if err != nil {
+		fmt.Println("error user.store.IncreaseBalance: ", err.Error())
+		return err
+	}
+
+	return nil
 }

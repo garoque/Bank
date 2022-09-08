@@ -16,6 +16,7 @@ func Register(g *echo.Group, apps *app.ContainerApp) {
 
 	g.POST("/common-user", h.createCommonUser)
 	g.POST("/seller-user", h.createSellerUser)
+	g.POST("/cash-deposit", h.cashDeposit)
 }
 
 type handler struct {
@@ -61,4 +62,25 @@ func (h *handler) createSellerUser(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, user)
+}
+
+func (h *handler) cashDeposit(c echo.Context) error {
+	var request RequestCashDeposit
+	if err := c.Bind(&request); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "Falha ao recuperar os dados da requisição.")
+	}
+
+	if err := c.Validate(&request); err != nil {
+		fmt.Println(err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, "Faltam dados a serem informados na requisição.")
+	}
+
+	ctx := c.Request().Context()
+	err := h.apps.User.IncreaseBalance(ctx, request.Value, request.UserID)
+	if err != nil {
+		fmt.Println("h.apps.User.IncreaseBalance: ", err.Error())
+		return err
+	}
+
+	return c.JSON(http.StatusNoContent, nil)
 }

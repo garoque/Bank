@@ -37,3 +37,8 @@ func (user *SellerUser) ToUser() *model.User {
 		Balance:  0,
 	}
 }
+
+type RequestCashDeposit struct {
+	Value  float64 `json:"value" validate:"required"`
+	UserID string  `json:"userId" validate:"required"`
+}
