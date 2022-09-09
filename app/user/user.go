@@ -102,9 +102,9 @@ func (a *appImpl) IncreaseBalance(ctx context.Context, value float64, userID str
 	}
 
 	user.Balance += value
-	err = a.stores.User.IncreaseBalance(ctx, *user)
+	err = a.stores.User.UpdateBalance(ctx, *user)
 	if err != nil {
-		fmt.Println("app.IncreaseBalance.User.IncreaseBalance: ", err.Error())
+		fmt.Println("app.IncreaseBalance.User.UpdateBalance: ", err.Error())
 		return err
 	}
 
