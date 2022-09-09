@@ -10,16 +10,7 @@ const docTemplate_swagger = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -272,11 +263,11 @@ const docTemplate_swagger = `{
 // SwaggerInfo_swagger holds exported Swagger Info so clients can modify it
 var SwaggerInfo_swagger = &swag.Spec{
 	Version:          "1.0",
-	Host:             "petstore.swagger.io",
-	BasePath:         "/v2",
+	Host:             "",
+	BasePath:         "/v1",
 	Schemes:          []string{},
-	Title:            "Swagger Example API22222",
-	Description:      "This is a sample server Petstore server.",
+	Title:            "Swagger Q2Bank",
+	Description:      "This is a sample server Q2Bank.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate_swagger,
 }
