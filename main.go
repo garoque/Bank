@@ -3,25 +3,31 @@ package main
 import (
 	"Q2Bank/api"
 	"Q2Bank/app"
+	_ "Q2Bank/docs"
 	"Q2Bank/store"
-	"net/http"
+	"Q2Bank/utils/validator"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
 	_ "github.com/go-sql-driver/mysql"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
-func main() {
-	// Echo instance
-	e := echo.New()
+// @title Swagger Q2Bank
+// @version 1.0
+// @description This is a sample server Q2Bank.
 
-	// Middleware
+// @BasePath /v1
+func main() {
+	e := echo.New()
+	e.Validator = validator.NewValidator()
+
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	db := sqlx.MustConnect("mysql", "root:12345678@tcp(localhost:3306)/Q2Bank")
+	db := sqlx.MustConnect("mysql", "root:12345678@tcp(localhost:3306)/Q2Bank?parseTime=true")
 	store := store.NewContainerStore(db)
 
 	app := app.NewContainerApp(app.Options{
@@ -33,11 +39,7 @@ func main() {
 		Apps:  app,
 	})
 
-	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
-}
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
-// Handler
-func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
+	e.Logger.Fatal(e.Start(":1323"))
 }

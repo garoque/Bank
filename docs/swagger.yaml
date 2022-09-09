@@ -1,0 +1,166 @@
+basePath: /v1
+definitions:
+  transaction.RequestTransaction:
+    properties:
+      payeeId:
+        type: string
+      payerId:
+        type: string
+      value:
+        type: number
+    required:
+    - payeeId
+    - payerId
+    - value
+    type: object
+  user.CommonUser:
+    properties:
+      cpf:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - cpf
+    - email
+    - name
+    - password
+    type: object
+  user.RequestCashDeposit:
+    properties:
+      userId:
+        type: string
+      value:
+        type: number
+    required:
+    - userId
+    - value
+    type: object
+  user.SellerUser:
+    properties:
+      cnpj:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - cnpj
+    - email
+    - name
+    - password
+    type: object
+info:
+  contact: {}
+  description: This is a sample server Q2Bank.
+  title: Swagger Q2Bank
+  version: "1.0"
+paths:
+  /v1/transaction:
+    post:
+      consumes:
+      - application/json
+      description: Create transaction
+      parameters:
+      - description: add transaction
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/transaction.RequestTransaction'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/transaction.RequestTransaction'
+        "400":
+          description: ""
+        "500":
+          description: ""
+      tags:
+      - transaction
+  /v1/user/cash-deposit:
+    post:
+      consumes:
+      - application/json
+      description: Deposit cash in account user
+      parameters:
+      - description: add cash
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.RequestCashDeposit'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+        "400":
+          description: ""
+        "500":
+          description: ""
+      tags:
+      - user
+  /v1/user/common-user:
+    post:
+      consumes:
+      - application/json
+      description: Create common user
+      parameters:
+      - description: add user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.CommonUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/user.CommonUser'
+        "400":
+          description: ""
+        "409":
+          description: ""
+        "500":
+          description: ""
+      tags:
+      - user
+  /v1/user/seller-user:
+    post:
+      consumes:
+      - application/json
+      description: Create seller user
+      parameters:
+      - description: add user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.SellerUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/user.SellerUser'
+        "400":
+          description: ""
+        "409":
+          description: ""
+        "500":
+          description: ""
+      tags:
+      - user
+swagger: "2.0"
