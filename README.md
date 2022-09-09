@@ -17,6 +17,7 @@ Para os testes unitários da API, temos dois comandos principais:
 # Migration
 
 Para subir as tabelas do banco é necessário rodar manualmente os scripts que estão no path `./migrations/script.sql`.
+Para realizar a conexão com o banco, é necessário alterar as variáveis `USER_DB` e `PASSWORD_DB` no arquivo `main.go`,
 
 # Documentação
 

@@ -20,6 +20,12 @@ import (
 // @description This is a sample server Q2Bank.
 
 // @BasePath /v1
+
+const (
+	USER_DB     = "root"
+	PASSWORD_DB = "12345678"
+)
+
 func main() {
 	e := echo.New()
 	e.Validator = validator.NewValidator()
@@ -27,7 +33,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	db := sqlx.MustConnect("mysql", "root:12345678@tcp(localhost:3306)/Q2Bank?parseTime=true")
+	db := sqlx.MustConnect("mysql", USER_DB+":"+PASSWORD_DB+"@tcp(localhost:3306)/Q2Bank?parseTime=true")
 	store := store.NewContainerStore(db)
 
 	app := app.NewContainerApp(app.Options{
