@@ -2,9 +2,10 @@ package transaction
 
 import (
 	"Q2Bank/model"
+	customErr "Q2Bank/utils/err"
 	"context"
-	"errors"
 	"fmt"
+	"net/http"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -37,7 +38,7 @@ func (s *storeImpl) Create(ctx context.Context, transaction model.Transaction) (
 
 	if err != nil {
 		fmt.Println("error transaction.store.Create: ", err.Error())
-		return "", errors.New("Ocorreu um erro ao cadastrar uma transação")
+		return "", customErr.New(http.StatusInternalServerError, "Ocorreu um erro ao cadastrar uma transação")
 	}
 
 	return id, nil
@@ -54,7 +55,7 @@ func (s *storeImpl) ReadByID(ctx context.Context, id string) (*model.Transaction
 
 	if err != nil {
 		fmt.Println("error transaction.store.ReadByID: ", err.Error())
-		return nil, errors.New("Ocorreu um erro ao ler uma transação")
+		return nil, customErr.New(http.StatusInternalServerError, "Ocorreu um erro ao ler uma transação")
 	}
 
 	return transaction, nil

@@ -2,9 +2,10 @@ package user
 
 import (
 	"Q2Bank/model"
+	customErr "Q2Bank/utils/err"
 	"context"
-	"errors"
 	"fmt"
+	"net/http"
 
 	"github.com/jmoiron/sqlx"
 
@@ -46,7 +47,7 @@ func (s *storeImpl) Create(ctx context.Context, user model.User) (string, error)
 
 	if err != nil {
 		fmt.Println("error user.store.Create: ", err.Error())
-		return "", errors.New("Ocorreu um erro ao cadastrar um usuário")
+		return "", customErr.New(http.StatusInternalServerError, "Ocorreu um erro ao cadastrar um usuário")
 	}
 
 	return id, nil
@@ -63,7 +64,7 @@ func (s *storeImpl) ReadByID(ctx context.Context, id string) (*model.User, error
 
 	if err != nil {
 		fmt.Println("error user.store.ReadByID: ", err.Error())
-		return nil, errors.New("Ocorreu um erro ao ler um usuário")
+		return nil, customErr.New(http.StatusInternalServerError, "Ocorreu um erro ao ler um usuário")
 	}
 
 	return user, nil
@@ -80,7 +81,7 @@ func (s *storeImpl) ReadByEmail(ctx context.Context, email string) (*model.User,
 
 	if err != nil {
 		fmt.Println("error user.store.ReadByEmail: ", err.Error())
-		return nil, err
+		return nil, customErr.New(http.StatusInternalServerError, "Ocorreu um erro ao ler um usuário")
 	}
 
 	return user, nil
@@ -97,7 +98,7 @@ func (s *storeImpl) ReadByCpf(ctx context.Context, cpf string) (*model.User, err
 
 	if err != nil {
 		fmt.Println("error user.store.ReadByCpf: ", err.Error())
-		return nil, err
+		return nil, customErr.New(http.StatusInternalServerError, "Ocorreu um erro ao ler um usuário")
 	}
 
 	return user, nil
@@ -114,7 +115,7 @@ func (s *storeImpl) ReadByCnpj(ctx context.Context, cnpj string) (*model.User, e
 
 	if err != nil {
 		fmt.Println("error user.store.ReadByCnpj: ", err.Error())
-		return nil, err
+		return nil, customErr.New(http.StatusInternalServerError, "Ocorreu um erro ao ler um usuário")
 	}
 
 	return user, nil
@@ -129,7 +130,7 @@ func (s *storeImpl) UpdateBalance(ctx context.Context, user model.User) error {
 
 	if err != nil {
 		fmt.Println("error user.store.UpdateBalance: ", err.Error())
-		return err
+		return customErr.New(http.StatusInternalServerError, "Ocorreu um erro atualizar a carteira")
 	}
 
 	return nil
