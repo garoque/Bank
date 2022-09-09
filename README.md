@@ -12,7 +12,7 @@ Este serviço conta com uma cobertura de testes unitários alta.
 Para os testes unitários da API, temos dois comandos principais:
 
 - `make mock`: cria as implementações das interfaces, com o objetivo de realização da injeção de dependência para execução dos testes unitários. Para criá-los basta adicionar no arquivo **Makefile**, dentro da seção **mock**, a seguinte instrução: **mockgen -souce=./path_do_arquivo.go -destination=./path-onde-ficam-os-mocks.go -package=pasta-onde-ficam-os-mocks -mock_name=PastaDaInterface=NomeDoMock
-- `make test`: executa os testes e apresenta o percentual de cobertura.
+- `make tests`: executa os testes e apresenta o percentual de cobertura.
 
 # Migration
 
