@@ -4,9 +4,10 @@ import (
 	"Q2Bank/model"
 	"Q2Bank/services/authorization"
 	"Q2Bank/store"
+	customErr "Q2Bank/utils/err"
 	"context"
-	"errors"
 	"fmt"
+	"net/http"
 )
 
 type App interface {
@@ -29,11 +30,11 @@ func (a *appImpl) Create(ctx context.Context, request model.Transaction) (*model
 	}
 
 	if payer.IsSeller {
-		return nil, errors.New("Lojistas não podem enviar dinheiro")
+		return nil, customErr.New(http.StatusBadRequest, "Lojistas não podem enviar dinheiro")
 	}
 
 	if payer.Balance-request.Value < 0 {
-		return nil, errors.New("Saldo insuficiente")
+		return nil, customErr.New(http.StatusBadRequest, "Saldo insuficiente")
 	}
 
 	payee, err := a.stores.User.ReadByID(ctx, request.PayeeID)

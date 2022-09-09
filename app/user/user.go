@@ -4,9 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/http"
 
 	"Q2Bank/model"
 	"Q2Bank/store"
+	customErr "Q2Bank/utils/err"
 	"Q2Bank/utils/hash"
 )
 
@@ -66,7 +68,7 @@ func (a *appImpl) alreadyExists(ctx context.Context, email, cpf, cnpj string) (b
 	}
 
 	if user != nil {
-		return true, errors.New("Já existe um usuário com esse email")
+		return true, customErr.New(http.StatusConflict, "Já existe um usuário com esse email")
 	}
 
 	if cpf != "" {
@@ -76,7 +78,7 @@ func (a *appImpl) alreadyExists(ctx context.Context, email, cpf, cnpj string) (b
 		}
 
 		if user != nil {
-			return true, errors.New("Já existe um usuário com esse cpf")
+			return true, customErr.New(http.StatusConflict, "Já existe um usuário com esse cpf")
 		}
 	}
 
@@ -87,7 +89,7 @@ func (a *appImpl) alreadyExists(ctx context.Context, email, cpf, cnpj string) (b
 		}
 
 		if user != nil {
-			return true, errors.New("Já existe um usuário com esse cnpj")
+			return true, customErr.New(http.StatusConflict, "Já existe um usuário com esse cnpj")
 		}
 	}
 
