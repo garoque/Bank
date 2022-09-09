@@ -61,6 +61,19 @@ func (a *appImpl) Create(ctx context.Context, request model.Transaction) (*model
 
 	payer.Balance -= request.Value
 	payee.Balance += request.Value
+
+	err = a.stores.User.UpdateBalance(ctx, *payer)
+	if err != nil {
+		fmt.Println("app.Create.User.UpdateBalance.payer: ", err.Error())
+		return nil, err
+	}
+
+	err = a.stores.User.UpdateBalance(ctx, *payee)
+	if err != nil {
+		fmt.Println("app.Create.User.UpdateBalance.payee: ", err.Error())
+		return nil, err
+	}
+
 	// @TODO: alterar status
 	return transaction, nil
 }
