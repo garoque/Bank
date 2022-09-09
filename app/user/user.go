@@ -8,7 +8,7 @@ import (
 
 	"Q2Bank/model"
 	"Q2Bank/store"
-	customErr "Q2Bank/utils/err"
+	"Q2Bank/utils/customErr"
 	"Q2Bank/utils/hash"
 )
 

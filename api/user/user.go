@@ -23,6 +23,17 @@ type handler struct {
 	apps *app.ContainerApp
 }
 
+// user swagger document
+// @Description Create common user
+// @Param user body CommonUser true "add user"
+// @Tags user
+// @Accept json
+// @Produce json
+// @Success 201 {object} CommonUser
+// @Failure 400
+// @Failure 409
+// @Failure 500
+// @Router /v1/user/common-user [post]
 func (h *handler) createCommonUser(c echo.Context) error {
 	var request CommonUser
 	if err := c.Bind(&request); err != nil {
@@ -44,6 +55,17 @@ func (h *handler) createCommonUser(c echo.Context) error {
 	return c.JSON(http.StatusCreated, user)
 }
 
+// user swagger document
+// @Description Create seller user
+// @Param user body SellerUser true "add user"
+// @Tags user
+// @Accept json
+// @Produce json
+// @Success 201 {object} SellerUser
+// @Failure 400
+// @Failure 409
+// @Failure 500
+// @Router /v1/user/seller-user [post]
 func (h *handler) createSellerUser(c echo.Context) error {
 	var request SellerUser
 	if err := c.Bind(&request); err != nil {
@@ -64,6 +86,16 @@ func (h *handler) createSellerUser(c echo.Context) error {
 	return c.JSON(http.StatusCreated, user)
 }
 
+// user swagger document
+// @Description Deposit cash in account user
+// @Param user body RequestCashDeposit true "add cash"
+// @Tags user
+// @Accept json
+// @Produce json
+// @Success 204
+// @Failure 400
+// @Failure 500
+// @Router /v1/user/cash-deposit [post]
 func (h *handler) cashDeposit(c echo.Context) error {
 	var request RequestCashDeposit
 	if err := c.Bind(&request); err != nil {

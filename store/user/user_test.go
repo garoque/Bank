@@ -3,7 +3,7 @@ package user
 import (
 	"Q2Bank/model"
 	"Q2Bank/test"
-	customErr "Q2Bank/utils/err"
+	"Q2Bank/utils/customErr"
 	"context"
 	"net/http"
 	"testing"

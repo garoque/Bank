@@ -3,6 +3,7 @@ package main
 import (
 	"Q2Bank/api"
 	"Q2Bank/app"
+	_ "Q2Bank/docs"
 	"Q2Bank/store"
 	"Q2Bank/utils/validator"
 
@@ -11,8 +12,23 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	_ "github.com/go-sql-driver/mysql"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
+// @title Swagger Example API22222
+// @version 1.0
+// @description This is a sample server Petstore server.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host petstore.swagger.io
+// @BasePath /v2
 func main() {
 	e := echo.New()
 	e.Validator = validator.NewValidator()
@@ -31,6 +47,8 @@ func main() {
 		Group: e.Group("/v1"),
 		Apps:  app,
 	})
+
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

@@ -2,7 +2,7 @@ package transaction
 
 import (
 	"Q2Bank/model"
-	customErr "Q2Bank/utils/err"
+	"Q2Bank/utils/customErr"
 	"context"
 	"fmt"
 	"net/http"

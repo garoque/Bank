@@ -4,7 +4,7 @@ import (
 	"Q2Bank/mocks"
 	"Q2Bank/model"
 	"Q2Bank/store"
-	customErr "Q2Bank/utils/err"
+	"Q2Bank/utils/customErr"
 	"context"
 	"net/http"
 	"testing"

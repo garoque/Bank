@@ -2,11 +2,12 @@ package transaction
 
 import (
 	"Q2Bank/app"
-	"Q2Bank/model"
 	"fmt"
 	"net/http"
 
-	"github.com/labstack/echo/v4"
+	_ "Q2Bank/utils/customErr"
+
+	echo "github.com/labstack/echo/v4"
 )
 
 // Register handlers /transaction
@@ -22,8 +23,18 @@ type handler struct {
 	apps *app.ContainerApp
 }
 
+// transaction swagger document
+// @Description Create transaction
+// @Param transaction body RequestTransaction true "add transaction"
+// @Tags transaction
+// @Accept json
+// @Produce json
+// @Success 201 {object} RequestTransaction
+// @Failure 400
+// @Failure 500
+// @Router /v1/transaction [post]
 func (h *handler) create(c echo.Context) error {
-	var request model.Transaction
+	var request RequestTransaction
 	if err := c.Bind(&request); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Falha ao recuperar os dados da requisição.")
 	}
@@ -34,7 +45,7 @@ func (h *handler) create(c echo.Context) error {
 	}
 
 	ctx := c.Request().Context()
-	transaction, err := h.apps.Transaction.Create(ctx, request)
+	transaction, err := h.apps.Transaction.Create(ctx, *request.ToTransaction())
 	if err != nil {
 		fmt.Println("h.apps.Transaction.Create: ", err.Error())
 		return err
