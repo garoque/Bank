@@ -1,4 +1,4 @@
-# Q2Bank
+# Bank
 
 Esse serviço faz o cadastro de usuários comuns, cadastro de lojistas, possibilita depositar dinheiro em sua carteira e também realizar transaferências.
 
